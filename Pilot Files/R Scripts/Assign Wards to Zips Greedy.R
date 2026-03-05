@@ -176,3 +176,21 @@ nashville_list$city<-"nashville"
 
 full_list<-rbind(chicago_list%>%select(assigned_zip, DISTRICT, city), jacksonville_list%>%select(assigned_zip, DISTRICT,city), nashville_list%>%select(assigned_zip, DISTRICT,city))
 write.csv(full_list, file='./Merged Lists/pilot_zip_district_list.csv')
+
+
+
+# NOW ADD EMAILS ---------------
+
+
+
+c_emails<-read.csv("~/Documents/GitHub/Rooted_Audit/Pilot Files/Scrape Emails/chicago_ward_emails.csv")
+c_emails<-c_emails%>%select(DISTRICT, email, name, city)
+n_emails<-read.csv("~/Documents/GitHub/Rooted_Audit/Pilot Files/Scrape Emails/nashville_council_emails.csv")
+j_emails<-read.csv("~/Documents/GitHub/Rooted_Audit/Pilot Files/Scrape Emails/jacksonville_council_emails.csv")
+emails<-rbind(c_emails, n_emails, j_emails)
+
+
+full_list$DISTRICT<-as.character(full_list$DISTRICT)
+full_list<-left_join(full_list, emails, by=c("city", "DISTRICT"))
+
+write.csv(full_list, file='./Scrape Emails/pilot_zip_district_emails.csv')
