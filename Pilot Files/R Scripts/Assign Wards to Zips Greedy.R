@@ -160,3 +160,19 @@ nashville_zips<-st_read("./Zip Code Maps/Nashville_ZIP_Codes.geojson")
 
 assign_wards("nashville", nashville_wards, nashville_zips)
 
+
+
+jacksonville_wards<- st_read("./City Council Maps/Florida_Jacksonville_City_2024.geojson")
+jacksonville_zips<-st_read("./Zip Code Maps/Jacksonville_ZIP_Codes.geojson")
+
+assign_wards("jacksonville", jacksonville_wards, jacksonville_zips)
+
+chicago_list<-read.csv("~/Documents/GitHub/Rooted_Audit/Pilot Files/Merged Lists/chicago_zip_list.csv")
+chicago_list$city<-"chicago"
+jacksonville_list<-read.csv("~/Documents/GitHub/Rooted_Audit/Pilot Files/Merged Lists/jacksonville_zip_list.csv")
+jacksonville_list$city<-"jacksonville"
+nashville_list<-read.csv("~/Documents/GitHub/Rooted_Audit/Pilot Files/Merged Lists/nashville_zip_list.csv")       
+nashville_list$city<-"nashville"
+
+full_list<-rbind(chicago_list%>%select(assigned_zip, DISTRICT, city), jacksonville_list%>%select(assigned_zip, DISTRICT,city), nashville_list%>%select(assigned_zip, DISTRICT,city))
+write.csv(full_list, file='./Merged Lists/pilot_zip_district_list.csv')
